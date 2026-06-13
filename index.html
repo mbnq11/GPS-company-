@@ -252,30 +252,11 @@
             margin-left: 10px;
         }
         
-        .type-tech {
-            background: rgba(255, 235, 59, 0.2);
-            color: #ffeb3b;
-        }
-        
-        .type-eng {
-            background: rgba(255, 235, 59, 0.15);
-            color: #fdd835;
-        }
-        
-        .type-cyber {
-            background: rgba(255, 235, 59, 0.2);
-            color: #ffeb3b;
-        }
-        
-        .type-software {
-            background: rgba(255, 235, 59, 0.15);
-            color: #fdd835;
-        }
-        
-        .type-consult {
-            background: rgba(255, 235, 59, 0.2);
-            color: #ffeb3b;
-        }
+        .type-tech { background: rgba(21, 101, 192, 0.3); color: #64b5f6; }
+        .type-eng { background: rgba(106, 27, 154, 0.3); color: #ba68c8; }
+        .type-cyber { background: rgba(198, 40, 40, 0.3); color: #ef5350; }
+        .type-software { background: rgba(0, 105, 92, 0.3); color: #4db6ac; }
+        .type-consult { background: rgba(230, 81, 0, 0.3); color: #ffb74d; }
         
         .company-info {
             display: grid;
@@ -413,7 +394,6 @@
     
     <div class="container">
         <div class="main-wrapper">
-            <!-- Sidebar -->
             <div class="sidebar">
                 <h2>معايير البحث</h2>
                 
@@ -430,15 +410,17 @@
                 </div>
                 
                 <div class="filter-group">
-                    <label>المنطقة</label>
+                    <label>المنطقة (الأحياء الحيوية في الرياض)</label>
                     <select id="district">
                         <option value="">عرض جميع المناطق</option>
                         <option value="الملقا">الملقا</option>
-                        <option value="الرياض">حي الرياض</option>
-                        <option value="الدقي">الدقي</option>
-                        <option value="النخيل">النخيل</option>
-                        <option value="المربع">المربع</option>
                         <option value="العليا">العليا</option>
+                        <option value="النخيل">النخيل</option>
+                        <option value="الصحافة">الصحافة</option>
+                        <option value="الياسمين">الياسمين</option>
+                        <option value="السليمانية">السليمانية</option>
+                        <option value="المربع">المربع</option>
+                        <option value="قرطبة">قرطبة</option>
                     </select>
                 </div>
                 
@@ -453,7 +435,6 @@
                 </div>
             </div>
             
-            <!-- Results Panel -->
             <div class="results-panel">
                 <div class="results-header">
                     نتائج البحث
@@ -480,7 +461,6 @@
             </div>
         </div>
         
-        <!-- Map -->
         <div class="map-container" id="mapContainer" style="display: none; margin-top: 20px;">
             <div id="map"></div>
         </div>
@@ -497,17 +477,18 @@
         let allCompanies = [];
         let filteredCompanies = [];
         
-        // مراكز الأحياء
+        // إحداثيات حقيقية دقيقة لمراكز أهم الأحياء التجارية والاستثمارية في الرياض
         const districtsCenter = {
-            "الملقا": [24.77652, 46.67321],
-            "الرياض": [24.76431, 46.67531],
-            "الدقي": [24.75431, 46.67531],
-            "النخيل": [24.76201, 46.67321],
-            "المربع": [24.76591, 46.68121],
-            "العليا": [24.77501, 46.71021]
+            "الملقا": [24.8105, 46.6026],
+            "العليا": [24.6946, 46.6822],
+            "النخيل": [24.7394, 46.6264],
+            "الصحافة": [24.7972, 46.6402],
+            "الياسمين": [24.8296, 46.6435],
+            "السليمانية": [24.7067, 46.7025],
+            "المربع": [24.6543, 46.7093],
+            "قرطبة": [24.8142, 46.7301]
         };
         
-        // قائمة الشركات الفعلية
         const companyNames = [
             "أرامكو", "سابك", "كهرباء السعودية", "الاتحاد", "ستي إيه إم", "سابك تك", "نايت تيك", "قرين لاب",
             "إموجن", "ديجيتال سولوشن", "ايه آي سيستمز", "كود ماستر", "تك إنوفيشن", "سمارت سولوشن",
@@ -529,23 +510,28 @@
             for (let i = 0; i < 5000; i++) {
                 const district = districtsList[Math.floor(Math.random() * districtsList.length)];
                 const center = districtsCenter[district];
-                const lat = center[0] + (Math.random() - 0.5) * 0.08;
-                const lng = center[1] + (Math.random() - 0.5) * 0.08;
+                
+                // تقليص معامل التشتت العشوائي إلى 0.015 لتبقى الشركات واقعياً داخل حدود الحي نفسه
+                const lat = center[0] + (Math.random() - 0.5) * 0.015;
+                const lng = center[1] + (Math.random() - 0.5) * 0.015;
+                
                 const name = `${companyNames[Math.floor(Math.random() * companyNames.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`;
                 const type = types[Math.floor(Math.random() * types.length)];
                 
                 companies.push({
-                    id: id++,
+                    id: id,
                     name: name,
                     type: type,
                     district: district,
                     lat: lat,
                     lng: lng,
                     phone: `011${Math.floor(Math.random() * 9000000) + 1000000}`,
-                    email: `info@${name.replace(/\s+/g, '').toLowerCase()}@sa.com`,
-                    address: `${district} - الرياض`,
+                    // تصحيح منطق البريد الإلكتروني لمنع تكرار الـ @ واعتماد صيغة برمجية صحيحة
+                    email: `info@company${id}.sa`,
+                    address: `حي ${district} - الرياض`,
                     employees: Math.floor(Math.random() * 500) + 1
                 });
+                id++;
             }
             
             return companies;
@@ -553,10 +539,10 @@
         
         allCompanies = generateDatabase();
         
-        // تهيئة الخريطة
+        // تهيئة الخريطة بمركز الرياض الفعلي
         function initMap() {
             if (!map) {
-                map = L.map('map').setView([24.7633, 46.6753], 12);
+                map = L.map('map').setView([24.7136, 46.6753], 11);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: 'OpenStreetMap',
                     maxZoom: 19
@@ -589,7 +575,7 @@
                 
                 const marker = L.marker([company.lat, company.lng], {icon: divIcon})
                     .addTo(map)
-                    .bindPopup(`<div style="text-align: right;"><strong>${company.name}</strong><br>${company.type}<br>${company.phone}</div>`);
+                    .bindPopup(`<div style="text-align: right; font-family: sans-serif;"><strong>${company.name}</strong><br>النوع: ${company.type}<br>الهاتف: ${company.phone}</div>`);
                 
                 markers.push(marker);
             });
@@ -606,7 +592,7 @@
             const searchName = document.getElementById('searchName').value.toLowerCase();
             
             const resultsContent = document.getElementById('resultsContent');
-            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>جاري البحث...</div>';
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>جاري البحث في قاعدة البيانات...</div>';
             
             setTimeout(() => {
                 filteredCompanies = allCompanies.filter(company => {
@@ -622,15 +608,19 @@
                     document.getElementById('mapContainer').style.display = 'block';
                     initMap();
                     addMarkersToMap();
+                } else {
+                    document.getElementById('mapContainer').style.display = 'none';
                 }
-            }, 1000);
+            }, 600);
         }
         
         function displayResults() {
             const resultsContent = document.getElementById('resultsContent');
             
             if (filteredCompanies.length === 0) {
-                resultsContent.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج مطابقة</div>';
+                resultsContent.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج مطابقة، حاول تغيير خيارات البحث</div>';
+                document.getElementById('statsRow').style.display = 'none';
+                document.getElementById('exportBtn').disabled = true;
                 return;
             }
             
@@ -647,8 +637,9 @@
             const toDisplay = filteredCompanies.slice(0, displayLimit);
             
             toDisplay.forEach((company) => {
-                const gpsGoogle = `https://maps.google.com/?q=${company.lat},${company.lng}`;
-                const gpsWaze = `https://www.waze.com/ul?ll=${company.lat},${company.lng}`;
+                // تصحيح الرابط الخاص بخرائط جوجل
+                const gpsGoogle = `https://www.google.com/maps?q=${company.lat},${company.lng}`;
+                const gpsWaze = `https://www.waze.com/ul?ll=${company.lat},${company.lng}&navigate=yes`;
                 const badgeClass = typeMap[company.type] || 'type-tech';
                 
                 html += `
@@ -686,19 +677,19 @@
             });
             
             if (filteredCompanies.length > displayLimit) {
-                html += `<div class="empty-state">عرض ${displayLimit} من ${filteredCompanies.length} نتيجة - حمل البيانات لرؤيتها جميعاً</div>`;
+                html += `<div class="empty-state" style="color: #ffeb3b;">تم عرض أول ${displayLimit} شركة فقط لتفادي بطء المتصفح، يمكنك تحميل ملف Excel لمشاهدة كافة النتائج (${filteredCompanies.length}) نتيجه.</div>`;
             }
             
             resultsContent.innerHTML = html;
             
-            // الإحصائيات
+            // تحديث الإحصائيات باللغة العربية
             const districts = new Set(filteredCompanies.map(c => c.district));
-            const types = new Set(filteredCompanies.map(c => c.type));
+            const typesSet = new Set(filteredCompanies.map(c => c.type));
             
             document.getElementById('statsRow').style.display = 'grid';
             document.getElementById('totalCount').textContent = filteredCompanies.length.toLocaleString('ar-SA');
-            document.getElementById('districtCount').textContent = districts.size;
-            document.getElementById('typeCount').textContent = types.size;
+            document.getElementById('districtCount').textContent = districts.size.toLocaleString('ar-SA');
+            document.getElementById('typeCount').textContent = typesSet.size.toLocaleString('ar-SA');
             
             document.getElementById('exportBtn').disabled = false;
         }
@@ -714,14 +705,14 @@
                 'الهاتف': c.phone,
                 'البريد الإلكتروني': c.email,
                 'عدد الموظفين': c.employees,
-                'Google Maps': `https://maps.google.com/?q=${c.lat},${c.lng}`,
-                'Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}`
+                'رابط Google Maps': `https://www.google.com/maps?q=${c.lat},${c.lng}`,
+                'رابط Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`
             }));
             
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "الشركات");
-            XLSX.writeFile(wb, `شركات_${filteredCompanies.length}_${new Date().toLocaleDateString('ar-SA')}.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "الشركات المفلترة");
+            XLSX.writeFile(wb, `دليل_الشركات_الرياض_${filteredCompanies.length}.xlsx`);
         }
     </script>
 </body>
