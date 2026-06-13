@@ -499,17 +499,20 @@
             "قرطبة": [24.8142, 46.7301]
         };
         
-        const companyNames = [
-            "أرامكو", "سابك", "كهرباء السعودية", "الاتحاد", "ستي إيه إم", "سابك تك", "نايت تيك", "قرين لاب",
-            "إموجن", "ديجيتال سولوشن", "ايه آي سيستمز", "كود ماستر", "تك إنوفيشن", "سمارت سولوشن",
-            "دار الهندسة", "استشارات إيه إم سي", "الدار للاستشارات", "إي إم سي هندسة", "مكتب الجدوى",
-            "إيجي سيكيوريتي", "سايبر فورت", "نت سكيور", "فايرول", "ديفنس سيستمز",
-            "ميتاكورب", "إنوفاتيا", "نيوروتك", "ديجيتال ترانسفورم", "كلاود سولوشن",
-            "برج الاستشارات", "ستراتيج سولوشن", "بيزنس سوليوشن", "فيوتشر تيك", "إكسيل إينو"
+        // أسماء شركات واقعية تناسب السوق السعودي
+        const baseCompanyNames = [
+            "سحابة التقنية", "درع المعلومات", "آفاق المستقبل", "طويق", "مدارات", 
+            "رؤية", "الأنظمة الذكية", "أبعاد", "الشبكات المتقدمة", "الخوارزميات",
+            "العمارة الحديثة", "ركين", "المحور", "نوافذ الرقمية", "القمة", 
+            "المبتكرون", "النخبة", "الوطنية", "حلول الأعمال", "عِلم", "ثقة", 
+            "سار", "التحول الرقمي", "مسارات البيانات", "الفضاء السيبراني",
+            "أصول", "دار الرياض", "الرواد", "انطلاقة", "البيانات الضخمة"
         ];
         
+        // لواحق مخصصة حسب قطاع الشركة لتبدو واقعية
+        const techCyberSoftwareSuffixes = ["لتقنية المعلومات", "للأمن السيبراني", "للحلول الرقمية", "لتطوير البرمجيات", "لتقنية الاتصالات"];
+        const engConsultSuffixes = ["للاستشارات الهندسية", "لإدارة المشاريع", "للخدمات الاستشارية", "للمقاولات والهندسة", "المتطورة للاستشارات"];
         const types = ["تقنية", "هندسية", "سايبر", "برمجيات", "استشارات"];
-        const suffixes = ["المجموعة", "للاستشارات", "للتقنية", "للهندسة", "للتطوير", "للخدمات"];
         
         function generateDatabase() {
             const companies = [];
@@ -523,8 +526,21 @@
                 const lat = center[0] + (Math.random() - 0.5) * 0.015;
                 const lng = center[1] + (Math.random() - 0.5) * 0.015;
                 
-                const name = `${companyNames[Math.floor(Math.random() * companyNames.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`;
                 const type = types[Math.floor(Math.random() * types.length)];
+                const baseName = baseCompanyNames[Math.floor(Math.random() * baseCompanyNames.length)];
+                
+                // تحديد اللاحقة بناءً على نوع الشركة
+                let suffix = "";
+                if (type === "تقنية" || type === "سايبر" || type === "برمجيات") {
+                    suffix = techCyberSoftwareSuffixes[Math.floor(Math.random() * techCyberSoftwareSuffixes.length)];
+                } else {
+                    suffix = engConsultSuffixes[Math.floor(Math.random() * engConsultSuffixes.length)];
+                }
+                
+                const name = `${baseName} ${suffix}`;
+                
+                // توليد بريد إلكتروني بناءً على رقم الشركة لتجنب التكرار
+                const emailDomain = type === "هندسية" || type === "استشارات" ? "consult.sa" : "tech.sa";
                 
                 companies.push({
                     id: id,
@@ -534,7 +550,7 @@
                     lat: lat,
                     lng: lng,
                     phone: `011${Math.floor(Math.random() * 9000000) + 1000000}`,
-                    email: `info@company${id}.sa`,
+                    email: `info@company${id}.${emailDomain}`,
                     address: `حي ${district} - الرياض`,
                     employees: Math.floor(Math.random() * 500) + 1
                 });
@@ -643,11 +659,9 @@
             const toDisplay = filteredCompanies.slice(0, displayLimit);
             
             toDisplay.forEach((company) => {
-                // توليد رابط بحث مخصص باسم الشركة داخل الحي في الرياض
+                // روابط Google Maps الرسمية المحدثة والصحيحة
                 const mapsSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.name + ' حي ' + company.district + ' الرياض')}`;
-                
-                // روابط الإحداثيات الرسمية الدقيقة المباشرة للخرائط
-                const gpsGoogle = `https://www.google.com/maps/?q=${company.lat},${company.lng}`;
+                const gpsGoogle = `https://www.google.com/maps?q=${company.lat},${company.lng}`;
                 const gpsWaze = `https://www.waze.com/ul?ll=${company.lat},${company.lng}&navigate=yes`;
                 const badgeClass = typeMap[company.type] || 'type-tech';
                 
@@ -716,13 +730,13 @@
                 'البريد الإلكتروني': c.email,
                 'عدد الموظفين': c.employees,
                 'رابط بحث الخرائط بالاسم': `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.name + ' حي ' + c.district + ' الرياض')}`,
-                'رابط الموقع بالإحداثيات (Google)': `https://www.google.com/maps/?q=${c.lat},${c.lng}`,
+                'رابط الموقع بالإحداثيات (Google)': `https://www.google.com/maps?q=${c.lat},${c.lng}`,
                 'رابط Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`
             }));
             
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "الشركات המفلترة");
+            XLSX.utils.book_append_sheet(wb, ws, "الشركات المفلترة");
             XLSX.writeFile(wb, `دليل_الشركات_الرياض_${filteredCompanies.length}.xlsx`);
         }
     </script>
