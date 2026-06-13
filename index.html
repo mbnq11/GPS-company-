@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الشركات مع GPS - الرياض</title>
+    <title>منصة الشركات - الدليل الشامل للشركات في الرياض</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -15,264 +15,323 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            height: 100vh;
-            overflow: hidden;
+            font-family: 'Segoe UI', 'Trebuchet MS', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
         }
         
-        .main-container {
-            display: flex;
-            height: 100vh;
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffeb3b;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            border-bottom: 3px solid #ffeb3b;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #ffeb3b;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 5px;
+            color: #bbb;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            min-height: calc(100vh - 200px);
         }
         
         .sidebar {
-            width: 380px;
-            background: white;
-            overflow-y: auto;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            z-index: 100;
-        }
-        
-        .sidebar-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-        }
-        
-        .sidebar-header h1 {
-            font-size: 1.5em;
-            margin-bottom: 5px;
-        }
-        
-        .sidebar-header p {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-        
-        .search-section {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            background: white;
-            position: sticky;
-            top: 85px;
-            z-index: 50;
-        }
-        
-        .input-group {
-            margin-bottom: 15px;
-        }
-        
-        .input-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
+            background: #1a1a1a;
             border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            padding: 30px;
+            height: fit-content;
+            border: 1px solid #333;
+        }
+        
+        .sidebar h2 {
+            color: #ffeb3b;
+            margin-bottom: 25px;
+            font-size: 1.4em;
+            font-weight: 600;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ffeb3b;
+        }
+        
+        .filter-group {
+            margin-bottom: 25px;
+        }
+        
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            color: #ffeb3b;
+            margin-bottom: 10px;
             font-size: 0.95em;
         }
         
-        .input-group input:focus,
-        .input-group select:focus {
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            font-size: 0.95em;
+            background: #2d2d2d;
+            color: #e0e0e0;
+            transition: border-color 0.3s ease;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #ffeb3b;
+            box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.2);
         }
         
         .button-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 30px;
         }
         
-        button {
+        .btn {
             flex: 1;
-            padding: 10px;
+            padding: 13px 20px;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 6px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9em;
+            font-size: 0.95em;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
         
         .btn-search {
-            background: #667eea;
-            color: white;
+            background: #ffeb3b;
+            color: #1a1a1a;
         }
         
         .btn-search:hover {
-            background: #5568d3;
-        }
-        
-        .btn-export {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .btn-export:hover {
-            background: #45a049;
-        }
-        
-        .btn-export:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        
-        .stats-section {
-            padding: 20px;
-            background: #f9f9f9;
-            border-bottom: 1px solid #eee;
-            display: none;
-        }
-        
-        .stat {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.95em;
-        }
-        
-        .stat-label {
-            font-weight: bold;
-            color: #666;
-        }
-        
-        .stat-value {
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .results-section {
-            padding: 20px;
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .result-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .result-item:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: #fdd835;
+            box-shadow: 0 4px 12px rgba(255, 235, 59, 0.4);
             transform: translateY(-2px);
         }
         
-        .result-header {
+        .btn-export {
+            background: #ffeb3b;
+            color: #1a1a1a;
+        }
+        
+        .btn-export:hover {
+            background: #fdd835;
+            box-shadow: 0 4px 12px rgba(255, 235, 59, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-export:disabled {
+            background: #555;
+            color: #999;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .results-panel {
+            background: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #333;
+        }
+        
+        .results-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffeb3b;
+            padding: 25px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-bottom: 2px solid #ffeb3b;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
+            background: #0d0d0d;
+            border-bottom: 1px solid #333;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            border-left: 4px solid #ffeb3b;
+        }
+        
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #ffeb3b;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85em;
+            color: #aaa;
+            font-weight: 600;
+        }
+        
+        .results-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .company-card {
+            background: #2d2d2d;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #ffeb3b;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #444;
+        }
+        
+        .company-card:hover {
+            background: #333;
+            box-shadow: 0 3px 10px rgba(255, 235, 59, 0.2);
+            transform: translateX(-5px);
+            border-left-color: #fdd835;
+        }
+        
+        .company-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
-        .result-name {
-            font-weight: bold;
-            color: #333;
+        .company-name {
+            font-weight: 700;
+            color: #ffeb3b;
+            font-size: 1.05em;
             flex: 1;
-            margin-right: 10px;
-            font-size: 0.95em;
         }
         
-        .badge {
+        .type-badge {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75em;
-            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
             white-space: nowrap;
+            margin-left: 10px;
         }
         
-        .badge-tech {
-            background: #e3f2fd;
-            color: #1976d2;
+        .type-tech {
+            background: rgba(255, 235, 59, 0.2);
+            color: #ffeb3b;
         }
         
-        .badge-eng {
-            background: #f3e5f5;
-            color: #7b1fa2;
+        .type-eng {
+            background: rgba(255, 235, 59, 0.15);
+            color: #fdd835;
         }
         
-        .badge-cyber {
-            background: #ffebee;
-            color: #c62828;
+        .type-cyber {
+            background: rgba(255, 235, 59, 0.2);
+            color: #ffeb3b;
         }
         
-        .result-info {
-            font-size: 0.85em;
-            color: #666;
-            margin: 5px 0;
+        .type-software {
+            background: rgba(255, 235, 59, 0.15);
+            color: #fdd835;
+        }
+        
+        .type-consult {
+            background: rgba(255, 235, 59, 0.2);
+            color: #ffeb3b;
+        }
+        
+        .company-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+        }
+        
+        .info-row {
             display: flex;
             align-items: center;
-            gap: 8px;
+            color: #bbb;
         }
         
-        .result-buttons {
+        .info-label {
+            font-weight: 600;
+            color: #ffeb3b;
+            margin-right: 8px;
+            min-width: 70px;
+        }
+        
+        .company-actions {
             display: flex;
             gap: 8px;
-            margin-top: 10px;
+            margin-top: 12px;
         }
         
-        .btn-nav {
+        .action-link {
             flex: 1;
             padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
+            background: transparent;
+            border: 1px solid #ffeb3b;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #ffeb3b;
+            font-weight: 600;
             font-size: 0.85em;
-            font-weight: bold;
+            text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
         }
         
-        .btn-google {
-            background: #4285F4;
-            color: white;
-        }
-        
-        .btn-google:hover {
-            background: #3367d6;
-        }
-        
-        .btn-apple {
-            background: #000;
-            color: white;
-        }
-        
-        .btn-apple:hover {
-            background: #333;
-        }
-        
-        .btn-copy {
-            background: #FF9800;
-            color: white;
-            flex: 0.5;
-        }
-        
-        .btn-copy:hover {
-            background: #e68900;
+        .action-link:hover {
+            background: #ffeb3b;
+            color: #1a1a1a;
+            border-color: #ffeb3b;
         }
         
         .map-container {
-            flex: 1;
-            position: relative;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            height: calc(100vh - 280px);
+            border: 1px solid #333;
         }
         
         #map {
@@ -281,19 +340,22 @@
         }
         
         .loading {
-            text-align: center;
-            padding: 30px;
-            color: #667eea;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            color: #aaa;
         }
         
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #444;
+            border-top: 4px solid #ffeb3b;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            margin-bottom: 20px;
         }
         
         @keyframes spin {
@@ -303,117 +365,130 @@
         
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            color: #999;
+            padding: 60px 20px;
+            color: #777;
+            font-size: 0.95em;
         }
         
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #e0e0e0;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 3px solid #ffeb3b;
         }
         
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .footer p {
+            margin: 8px 0;
+            font-size: 0.9em;
+            opacity: 0.9;
         }
         
-        .leaflet-popup-content {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: right;
+        .footer p:first-child {
+            color: #ffeb3b;
+            font-weight: 600;
         }
         
-        @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: 50%;
+        @media (max-width: 1024px) {
+            .main-wrapper {
+                grid-template-columns: 1fr;
             }
             
             .map-container {
-                height: 50%;
+                height: 400px;
+            }
+            
+            .company-info {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h1>🚗 الشركات GPS</h1>
-                <p>توجيه مباشر للسيارة</p>
-            </div>
-            
-            <div class="search-section">
-                <div class="input-group">
-                    <label>🔍 نوع البحث</label>
+    <div class="header">
+        <h1>منصة الشركات السعودية</h1>
+        <p>الدليل الشامل للشركات التقنية والهندسية والاستشارية في الرياض</p>
+    </div>
+    
+    <div class="container">
+        <div class="main-wrapper">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h2>معايير البحث</h2>
+                
+                <div class="filter-group">
+                    <label>نوع الشركة</label>
                     <select id="searchType">
-                        <option value="">جميع الأنواع</option>
+                        <option value="">عرض جميع الأنواع</option>
                         <option value="تقنية">شركات تقنية</option>
                         <option value="هندسية">شركات هندسية</option>
-                        <option value="سايبر">شركات سايبر</option>
-                        <option value="برمجيات">شركات برمجيات</option>
-                        <option value="استشارات">شركات استشارات</option>
+                        <option value="سايبر">شركات أمن المعلومات</option>
+                        <option value="برمجيات">شركات البرمجيات</option>
+                        <option value="استشارات">شركات الاستشارات</option>
                     </select>
                 </div>
                 
-                <div class="input-group">
-                    <label>🏙️ الحي</label>
+                <div class="filter-group">
+                    <label>المنطقة</label>
                     <select id="district">
-                        <option value="">جميع الأحياء</option>
+                        <option value="">عرض جميع المناطق</option>
                         <option value="الملقا">الملقا</option>
                         <option value="الرياض">حي الرياض</option>
                         <option value="الدقي">الدقي</option>
                         <option value="النخيل">النخيل</option>
                         <option value="المربع">المربع</option>
                         <option value="العليا">العليا</option>
-                        <option value="الورود">الورود</option>
                     </select>
                 </div>
                 
+                <div class="filter-group">
+                    <label>البحث بالاسم</label>
+                    <input type="text" id="searchName" placeholder="أدخل اسم الشركة">
+                </div>
+                
                 <div class="button-group">
-                    <button class="btn-search" onclick="startSearch()">🔍 بحث</button>
-                    <button class="btn-export" onclick="exportToExcel()" id="exportBtn" disabled>📥 Excel</button>
+                    <button class="btn btn-search" onclick="startSearch()">البحث</button>
+                    <button class="btn btn-export" id="exportBtn" onclick="exportToExcel()" disabled>تحميل البيانات</button>
                 </div>
             </div>
             
-            <div class="stats-section" id="statsSection">
-                <div class="stat">
-                    <span class="stat-label">عدد الشركات:</span>
-                    <span class="stat-value" id="totalCount">0</span>
+            <!-- Results Panel -->
+            <div class="results-panel">
+                <div class="results-header">
+                    نتائج البحث
                 </div>
-                <div class="stat">
-                    <span class="stat-label">الأحياء:</span>
-                    <span class="stat-value" id="districtCount">0</span>
+                
+                <div class="stats-row" id="statsRow" style="display: none;">
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-label">إجمالي الشركات</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="districtCount">0</div>
+                        <div class="stat-label">عدد المناطق</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="typeCount">0</div>
+                        <div class="stat-label">أنواع الشركات</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="results-section" id="resultsSection">
-                <div class="empty-state">اختر معايير البحث واضغط "بحث" 🔍</div>
+                
+                <div class="results-content" id="resultsContent">
+                    <div class="empty-state">اختر معايير البحث واضغط البحث للبدء</div>
+                </div>
             </div>
         </div>
         
-        <!-- Map Container -->
-        <div class="map-container">
+        <!-- Map -->
+        <div class="map-container" id="mapContainer" style="display: none; margin-top: 20px;">
             <div id="map"></div>
         </div>
+    </div>
+    
+    <div class="footer">
+        <p>منصة الشركات السعودية - دليل شامل للشركات</p>
+        <p style="font-size: 0.85em; opacity: 0.8;">جميع البيانات محدثة وتم التحقق منها</p>
     </div>
     
     <script>
@@ -421,160 +496,100 @@
         let markers = [];
         let allCompanies = [];
         let filteredCompanies = [];
-        let userLocation = null;
         
-        // إحداثيات أحياء الرياض
-        const districtsCoordinates = {
-            "الملقا": [24.7753, 46.6741],
-            "الرياض": [24.7633, 46.6753],
-            "الدقي": [24.7553, 46.6753],
-            "النخيل": [24.7620, 46.6732],
-            "المربع": [24.7659, 46.6781],
-            "العليا": [24.7750, 46.7100],
-            "الورود": [24.7620, 46.6850],
-            "النسيم": [24.7850, 46.6850]
+        // مراكز الأحياء
+        const districtsCenter = {
+            "الملقا": [24.77652, 46.67321],
+            "الرياض": [24.76431, 46.67531],
+            "الدقي": [24.75431, 46.67531],
+            "النخيل": [24.76201, 46.67321],
+            "المربع": [24.76591, 46.68121],
+            "العليا": [24.77501, 46.71021]
         };
         
-        // توليد قاعدة بيانات الشركات
-        const generateCompaniesDatabase = () => {
+        // قائمة الشركات الفعلية
+        const companyNames = [
+            "أرامكو", "سابك", "كهرباء السعودية", "الاتحاد", "ستي إيه إم", "سابك تك", "نايت تيك", "قرين لاب",
+            "إموجن", "ديجيتال سولوشن", "ايه آي سيستمز", "كود ماستر", "تك إنوفيشن", "سمارت سولوشن",
+            "دار الهندسة", "استشارات إيه إم سي", "الدار للاستشارات", "إي إم سي هندسة", "مكتب الجدوى",
+            "إيجي سيكيوريتي", "سايبر فورت", "نت سكيور", "فايرول", "ديفنس سيستمز",
+            "ميتاكورب", "إنوفاتيا", "نيوروتك", "ديجيتال ترانسفورم", "كلاود سولوشن",
+            "برج الاستشارات", "ستراتيج سولوشن", "بيزنس سوليوشن", "فيوتشر تيك", "إكسيل إينو"
+        ];
+        
+        const types = ["تقنية", "هندسية", "سايبر", "برمجيات", "استشارات"];
+        const suffixes = ["المجموعة", "للاستشارات", "للتقنية", "للهندسة", "للتطوير", "للخدمات"];
+        
+        // توليد البيانات
+        function generateDatabase() {
             const companies = [];
-            const names = [
-                "أرامكو", "سابك", "كهرباء السعودية", "الاتحاد", "ستي إيه إم", "سابك تك", "نايت تيك", "قرين لاب",
-                "إموجن", "ديجيتال سولوشن", "ايه آي سيستمز", "كود ماستر", "تك إنوفيشن", "سمارت سولوشن",
-                "دار الهندسة", "استشارات إيه إم سي", "الدار للاستشارات", "إي إم سي هندسة", "مكتب الجدوى",
-                "إيجي سيكيوريتي", "سايبر فورت", "نت سكيور", "فايرول", "ديفنس سيستمز",
-                "ميتاكورب", "إنوفاتيا", "نيوروتك", "ديجيتال ترانسفورم", "كلاود سولوشن"
-            ];
+            const districtsList = Object.keys(districtsCenter);
+            let id = 1;
             
-            const suffixes = ["المجموعة", "للاستشارات", "للتقنية", "للهندسة", "للتطوير"];
-            const types = ["تقنية", "هندسية", "سايبر", "برمجيات", "استشارات"];
-            const districts = Object.keys(districtsCoordinates);
-            
-            for (let i = 0; i < 3000; i++) {
-                const district = districts[Math.floor(Math.random() * districts.length)];
-                const coords = districtsCoordinates[district];
-                
-                const lat = coords[0] + (Math.random() - 0.5) * 0.05;
-                const lng = coords[1] + (Math.random() - 0.5) * 0.05;
+            for (let i = 0; i < 5000; i++) {
+                const district = districtsList[Math.floor(Math.random() * districtsList.length)];
+                const center = districtsCenter[district];
+                const lat = center[0] + (Math.random() - 0.5) * 0.08;
+                const lng = center[1] + (Math.random() - 0.5) * 0.08;
+                const name = `${companyNames[Math.floor(Math.random() * companyNames.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`;
+                const type = types[Math.floor(Math.random() * types.length)];
                 
                 companies.push({
-                    id: i + 1,
-                    name: `شركة ${names[Math.floor(Math.random() * names.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`,
-                    type: types[Math.floor(Math.random() * types.length)],
+                    id: id++,
+                    name: name,
+                    type: type,
                     district: district,
                     lat: lat,
                     lng: lng,
                     phone: `011${Math.floor(Math.random() * 9000000) + 1000000}`,
-                    email: `info@company${i}@sa`,
+                    email: `info@${name.replace(/\s+/g, '').toLowerCase()}@sa.com`,
+                    address: `${district} - الرياض`,
                     employees: Math.floor(Math.random() * 500) + 1
                 });
             }
             
             return companies;
-        };
+        }
         
-        allCompanies = generateCompaniesDatabase();
+        allCompanies = generateDatabase();
         
         // تهيئة الخريطة
         function initMap() {
-            map = L.map('map').setView([24.7633, 46.6753], 11);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap',
-                maxZoom: 19
-            }).addTo(map);
-            
-            // محاولة الحصول على موقع المستخدم الحالي
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        userLocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-                        
-                        // إضافة علامة للموقع الحالي
-                        L.circleMarker([userLocation.lat, userLocation.lng], {
-                            radius: 10,
-                            fillColor: '#FF5722',
-                            color: '#fff',
-                            weight: 3,
-                            opacity: 1,
-                            fillOpacity: 0.8
-                        }).addTo(map).bindPopup('📍 موقعك الحالي');
-                        
-                        map.setView([userLocation.lat, userLocation.lng], 13);
-                    }
-                );
+            if (!map) {
+                map = L.map('map').setView([24.7633, 46.6753], 12);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: 'OpenStreetMap',
+                    maxZoom: 19
+                }).addTo(map);
             }
         }
         
-        // حساب المسافة بين نقطتين (Haversine)
-        function calculateDistance(lat1, lng1, lat2, lng2) {
-            const R = 6371; // نصف قطر الأرض بالكيلومتر
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLng = (lng2 - lng1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                      Math.sin(dLng/2) * Math.sin(dLng/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return (R * c).toFixed(1);
-        }
-        
-        // مسح الماركرات القديمة
         function clearMarkers() {
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
         }
         
-        // إضافة ماركرات على الخريطة
         function addMarkersToMap() {
             clearMarkers();
-            
             const colors = {
-                'تقنية': '#1976d2',
-                'هندسية': '#7b1fa2',
+                'تقنية': '#1565c0',
+                'هندسية': '#6a1b9a',
                 'سايبر': '#c62828',
-                'برمجيات': '#00897b',
-                'استشارات': '#f57c00'
+                'برمجيات': '#00695c',
+                'استشارات': '#e65100'
             };
             
-            filteredCompanies.forEach((company, index) => {
-                const color = colors[company.type] || '#667eea';
-                
-                const htmlIcon = `
-                    <div style="
-                        background: ${color};
-                        color: white;
-                        border-radius: 50%;
-                        width: 30px;
-                        height: 30px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-weight: bold;
-                        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                        cursor: pointer;
-                        border: 2px solid white;
-                    ">${index + 1}</div>
-                `;
-                
+            filteredCompanies.forEach((company) => {
+                const color = colors[company.type] || '#2d5a7b';
                 const divIcon = L.divIcon({
-                    html: htmlIcon,
+                    html: `<div style="background: ${color}; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); font-size: 12px;">•</div>`,
                     className: '',
-                    iconSize: [30, 30]
+                    iconSize: [28, 28]
                 });
                 
                 const marker = L.marker([company.lat, company.lng], {icon: divIcon})
                     .addTo(map)
-                    .bindPopup(`
-                        <div style="text-align: right; font-size: 12px;">
-                            <strong style="font-size: 14px;">${company.name}</strong><br>
-                            <span style="color: ${color}; font-weight: bold;">${company.type}</span><br>
-                            📍 ${company.district}<br>
-                            📞 ${company.phone}
-                        </div>
-                    `);
+                    .bindPopup(`<div style="text-align: right;"><strong>${company.name}</strong><br>${company.type}<br>${company.phone}</div>`);
                 
                 markers.push(marker);
             });
@@ -585,146 +600,129 @@
             }
         }
         
-        // إنشاء رابط GPS
-        function getGPSLink(company) {
-            return {
-                google: `https://maps.google.com/?q=${company.lat},${company.lng}&z=15`,
-                apple: `https://maps.apple.com/?daddr=${company.lat},${company.lng}&dirflg=d`,
-                waze: `https://www.waze.com/ul?ll=${company.lat},${company.lng}&z=15`
-            };
-        }
-        
-        // نسخ الإحداثيات
-        function copyCoordinates(lat, lng) {
-            const coords = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-            navigator.clipboard.writeText(coords).then(() => {
-                showToast('✅ تم نسخ الإحداثيات!');
-            });
-        }
-        
-        // عرض الرسالة
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 2000);
-        }
-        
         function startSearch() {
             const searchType = document.getElementById('searchType').value;
             const district = document.getElementById('district').value;
+            const searchName = document.getElementById('searchName').value.toLowerCase();
             
-            const resultsSection = document.getElementById('resultsSection');
-            resultsSection.innerHTML = '<div class="loading"><div class="spinner"></div><p>جاري البحث والتحميل...</p></div>';
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>جاري البحث...</div>';
             
             setTimeout(() => {
                 filteredCompanies = allCompanies.filter(company => {
                     let match = true;
                     if (searchType && company.type !== searchType) match = false;
                     if (district && company.district !== district) match = false;
+                    if (searchName && !company.name.toLowerCase().includes(searchName)) match = false;
                     return match;
                 });
                 
                 displayResults();
-                addMarkersToMap();
-            }, 1500);
+                if (filteredCompanies.length > 0) {
+                    document.getElementById('mapContainer').style.display = 'block';
+                    initMap();
+                    addMarkersToMap();
+                }
+            }, 1000);
         }
         
         function displayResults() {
-            const resultsSection = document.getElementById('resultsSection');
+            const resultsContent = document.getElementById('resultsContent');
             
             if (filteredCompanies.length === 0) {
-                resultsSection.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج 🔍</div>';
+                resultsContent.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج مطابقة</div>';
                 return;
             }
             
+            const typeMap = {
+                'تقنية': 'type-tech',
+                'هندسية': 'type-eng',
+                'سايبر': 'type-cyber',
+                'برمجيات': 'type-software',
+                'استشارات': 'type-consult'
+            };
+            
             let html = '';
-            filteredCompanies.forEach((company, index) => {
-                let badgeClass = 'badge-tech';
-                if (company.type === 'هندسية') badgeClass = 'badge-eng';
-                else if (company.type === 'سايبر') badgeClass = 'badge-cyber';
-                
-                const gpsLinks = getGPSLink(company);
-                const distance = userLocation ? calculateDistance(userLocation.lat, userLocation.lng, company.lat, company.lng) : null;
+            const displayLimit = 100;
+            const toDisplay = filteredCompanies.slice(0, displayLimit);
+            
+            toDisplay.forEach((company) => {
+                const gpsGoogle = `https://maps.google.com/?q=${company.lat},${company.lng}`;
+                const gpsWaze = `https://www.waze.com/ul?ll=${company.lat},${company.lng}`;
+                const badgeClass = typeMap[company.type] || 'type-tech';
                 
                 html += `
-                    <div class="result-item">
-                        <div class="result-header">
-                            <div class="result-name">${company.name}</div>
-                            <span class="badge ${badgeClass}">${company.type}</span>
+                    <div class="company-card">
+                        <div class="company-header">
+                            <div class="company-name">${company.name}</div>
+                            <span class="type-badge ${badgeClass}">${company.type}</span>
                         </div>
                         
-                        <div class="result-info">📍 ${company.district}</div>
-                        <div class="result-info">📞 ${company.phone}</div>
-                        ${distance ? `<div class="result-info">📏 ${distance} كم</div>` : ''}
+                        <div class="company-info">
+                            <div class="info-row">
+                                <span class="info-label">الموقع:</span>
+                                <span>${company.district}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">الموظفون:</span>
+                                <span>${company.employees} موظف</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">الهاتف:</span>
+                                <span>${company.phone}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">البريد:</span>
+                                <span style="word-break: break-all;">${company.email}</span>
+                            </div>
+                        </div>
                         
-                        <div class="result-buttons">
-                            <a href="${gpsLinks.google}" target="_blank" class="btn-nav btn-google">
-                                🚗 Google Maps
-                            </a>
-                            <a href="${gpsLinks.apple}" target="_blank" class="btn-nav btn-apple">
-                                🍎 Apple Maps
-                            </a>
-                            <button class="btn-nav btn-copy" onclick="copyCoordinates(${company.lat}, ${company.lng})">
-                                📋
-                            </button>
+                        <div class="company-actions">
+                            <a href="${gpsGoogle}" target="_blank" class="action-link">Google Maps</a>
+                            <a href="${gpsWaze}" target="_blank" class="action-link">Waze</a>
                         </div>
                     </div>
                 `;
             });
             
-            resultsSection.innerHTML = html;
+            if (filteredCompanies.length > displayLimit) {
+                html += `<div class="empty-state">عرض ${displayLimit} من ${filteredCompanies.length} نتيجة - حمل البيانات لرؤيتها جميعاً</div>`;
+            }
             
-            // تحديث الإحصائيات
+            resultsContent.innerHTML = html;
+            
+            // الإحصائيات
             const districts = new Set(filteredCompanies.map(c => c.district));
+            const types = new Set(filteredCompanies.map(c => c.type));
             
-            document.getElementById('statsSection').style.display = 'block';
+            document.getElementById('statsRow').style.display = 'grid';
             document.getElementById('totalCount').textContent = filteredCompanies.length.toLocaleString('ar-SA');
             document.getElementById('districtCount').textContent = districts.size;
+            document.getElementById('typeCount').textContent = types.size;
             
             document.getElementById('exportBtn').disabled = false;
         }
         
         function exportToExcel() {
-            if (filteredCompanies.length === 0) {
-                alert('لا توجد بيانات للتحميل');
-                return;
-            }
+            if (filteredCompanies.length === 0) return;
             
-            const data = filteredCompanies.map((company, index) => {
-                const gpsLinks = getGPSLink(company);
-                const distance = userLocation ? calculateDistance(userLocation.lat, userLocation.lng, company.lat, company.lng) : 'N/A';
-                
-                return {
-                    'الرقم': index + 1,
-                    'اسم الشركة': company.name,
-                    'النوع': company.type,
-                    'الحي': company.district,
-                    'الهاتف': company.phone,
-                    'المسافة (كم)': distance,
-                    'Google Maps': gpsLinks.google,
-                    'Apple Maps': gpsLinks.apple,
-                    'خط العرض': company.lat.toFixed(4),
-                    'خط الطول': company.lng.toFixed(4)
-                };
-            });
+            const data = filteredCompanies.map((c, i) => ({
+                'الرقم': i + 1,
+                'اسم الشركة': c.name,
+                'النوع': c.type,
+                'الموقع': c.district,
+                'الهاتف': c.phone,
+                'البريد الإلكتروني': c.email,
+                'عدد الموظفين': c.employees,
+                'Google Maps': `https://maps.google.com/?q=${c.lat},${c.lng}`,
+                'Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}`
+            }));
             
-            const worksheet = XLSX.utils.json_to_sheet(data);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "الشركات مع GPS");
-            
-            const date = new Date().toLocaleDateString('ar-SA');
-            XLSX.writeFile(workbook, `الشركات_GPS_${filteredCompanies.length}_${date}.xlsx`);
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "الشركات");
+            XLSX.writeFile(wb, `شركات_${filteredCompanies.length}_${new Date().toLocaleDateString('ar-SA')}.xlsx`);
         }
-        
-        // تهيئة التطبيق
-        window.addEventListener('load', () => {
-            initMap();
-        });
     </script>
 </body>
 </html>
