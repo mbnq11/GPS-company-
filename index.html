@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الشركات - الدليل الشامل للشركات في الرياض</title>
+    <title>منصة الشركات - التقديم الميداني بالرياض</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -104,6 +104,17 @@
             outline: none;
             border-color: #ffeb3b;
             box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.2);
+        }
+
+        .filter-group optgroup {
+            background: #1a1a1a;
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        .filter-group option {
+            background: #2d2d2d;
+            color: #e0e0e0;
         }
         
         .button-group {
@@ -217,7 +228,7 @@
             border-radius: 6px;
             border-left: 4px solid #ffeb3b;
             transition: all 0.3s ease;
-            cursor: pointer;
+            cursor: default;
             border: 1px solid #444;
         }
         
@@ -246,6 +257,7 @@
             text-decoration: none;
             border-bottom: 1px dashed transparent;
             transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .company-name a:hover {
@@ -289,11 +301,29 @@
             margin-right: 8px;
             min-width: 70px;
         }
+
+        .poi-box {
+            background: rgba(255, 235, 59, 0.08);
+            border: 1px dashed rgba(255, 235, 59, 0.4);
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .poi-box strong {
+            color: #ffeb3b;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
         
         .company-actions {
             display: flex;
             gap: 8px;
-            margin-top: 12px;
+            margin-top: 15px;
         }
         
         .action-link {
@@ -399,14 +429,14 @@
 </head>
 <body>
     <div class="header">
-        <h1>منصة الشركات السعودية</h1>
-        <p>الدليل الشامل للشركات التقنية والهندسية والاستشارية في الرياض</p>
+        <h1>منصة الشركات - مسارات التقديم</h1>
+        <p>الدليل الشامل للشركات التقنية والهندسية والاستشارية في الرياض مع تنظيم جغرافي ذكي</p>
     </div>
     
     <div class="container">
         <div class="main-wrapper">
             <div class="sidebar">
-                <h2>معايير البحث</h2>
+                <h2>معايير البحث والمسارات</h2>
                 
                 <div class="filter-group">
                     <label>نوع الشركة</label>
@@ -421,17 +451,23 @@
                 </div>
                 
                 <div class="filter-group">
-                    <label>المنطقة (الأحياء الحيوية في الرياض)</label>
+                    <label>المسار الجغرافي (جدول أيام التقديم)</label>
                     <select id="district">
-                        <option value="">عرض جميع المناطق</option>
-                        <option value="الملقا">الملقا</option>
-                        <option value="العليا">العليا</option>
-                        <option value="النخيل">النخيل</option>
-                        <option value="الصحافة">الصحافة</option>
-                        <option value="الياسمين">الياسمين</option>
-                        <option value="السليمانية">السليمانية</option>
-                        <option value="المربع">المربع</option>
-                        <option value="قرطبة">قرطبة</option>
+                        <option value="">عرض جميع المسارات والمناطق</option>
+                        <optgroup label="مسار اليوم الأول (شمال الرياض)">
+                            <option value="الملقا">حي الملقا</option>
+                            <option value="الصحافة">حي الصحافة</option>
+                            <option value="الياسمين">حي الياسمين</option>
+                        </optgroup>
+                        <optgroup label="مسار اليوم الثاني (عصب التقنية والأعمال)">
+                            <option value="النخيل">حي النخيل (المدينة الرقمية)</option>
+                            <option value="العليا">حي العليا (المركز المالي)</option>
+                            <option value="السليمانية">حي السليمانية</option>
+                        </optgroup>
+                        <optgroup label="مسار اليوم الثالث (بوابة الشرق والدوائر)">
+                            <option value="قرطبة">حي قرطبة (الواجهة)</option>
+                            <option value="المربع">حي المربع (الوزارات)</option>
+                        </optgroup>
                     </select>
                 </div>
                 
@@ -448,7 +484,7 @@
             
             <div class="results-panel">
                 <div class="results-header">
-                    نتائج البحث
+                    نتائج البحث والتخطيط الميداني
                 </div>
                 
                 <div class="stats-row" id="statsRow" style="display: none;">
@@ -458,7 +494,7 @@
                     </div>
                     <div class="stat-box">
                         <div class="stat-number" id="districtCount">0</div>
-                        <div class="stat-label">عدد المناطق</div>
+                        <div class="stat-label">عدد المناطق بالمسار</div>
                     </div>
                     <div class="stat-box">
                         <div class="stat-number" id="typeCount">0</div>
@@ -467,7 +503,7 @@
                 </div>
                 
                 <div class="results-content" id="resultsContent">
-                    <div class="empty-state">اختر معايير البحث واضغط البحث للبدء</div>
+                    <div class="empty-state">اختر المسار الجغرافي واضغط البحث لتنظيم جدول تقديمك</div>
                 </div>
             </div>
         </div>
@@ -478,8 +514,8 @@
     </div>
     
     <div class="footer">
-        <p>منصة الشركات السعودية - دليل شامل للشركات</p>
-        <p style="font-size: 0.85em; opacity: 0.8;">جميع البيانات محدثة وتم التحقق منها</p>
+        <p>نظام تنظيم مسارات التقديم الميداني - الرياض</p>
+        <p style="font-size: 0.85em; opacity: 0.8;">تم تقسيم المناطق لتسهيل الزيارات الميدانية</p>
     </div>
     
     <script>
@@ -498,8 +534,18 @@
             "المربع": [24.6543, 46.7093],
             "قرطبة": [24.8142, 46.7301]
         };
+
+        const districtPOIs = {
+            "الملقا": ["مجمع الملقا السكني والتجاري (مكاتب شركات كبرى)", "مقرات استثمارية شمالاً"],
+            "الصحافة": ["مركز الملك عبدالله المالي (KAFD) - عصب الاستشارات والأعمال", "هيئة الاتصالات والفضاء والتقنية (CST)"],
+            "النخيل": ["المدينة الرقمية (Digital City) - المقر الرئيسي لشركات التقنية والسايبر", "مجمع الرائد تيكستيل"],
+            "العليا": ["برج المملكة والفيصلية (استشارات وبنوك)", "مجمع العليا العقاري ومكاتب الشركات العالمية"],
+            "السليمانية": ["مدينة الملك عبدالعزيز للعلوم والتقنية (KACST)", "مجمع مكاتب الشركات الطبية والهندسية"],
+            "قرطبة": ["واجهة روشن (الرياض سابقاً) - مجمعات تقنية وتجارية", "مجمع بيئة العمل في غرناطة"],
+            "الياسمين": ["مجمعات تجارية وإدارية صاعدة شمال الرياض"],
+            "المربع": ["مقر الهيئة الوطنية للأمن السيبراني (NCA) القريب", "مجمعات الوزارات والدوائر الحكومية"]
+        };
         
-        // أسماء شركات واقعية تناسب السوق السعودي
         const baseCompanyNames = [
             "سحابة التقنية", "درع المعلومات", "آفاق المستقبل", "طويق", "مدارات", 
             "رؤية", "الأنظمة الذكية", "أبعاد", "الشبكات المتقدمة", "الخوارزميات",
@@ -509,7 +555,6 @@
             "أصول", "دار الرياض", "الرواد", "انطلاقة", "البيانات الضخمة"
         ];
         
-        // لواحق مخصصة حسب قطاع الشركة لتبدو واقعية
         const techCyberSoftwareSuffixes = ["لتقنية المعلومات", "للأمن السيبراني", "للحلول الرقمية", "لتطوير البرمجيات", "لتقنية الاتصالات"];
         const engConsultSuffixes = ["للاستشارات الهندسية", "لإدارة المشاريع", "للخدمات الاستشارية", "للمقاولات والهندسة", "المتطورة للاستشارات"];
         const types = ["تقنية", "هندسية", "سايبر", "برمجيات", "استشارات"];
@@ -529,7 +574,6 @@
                 const type = types[Math.floor(Math.random() * types.length)];
                 const baseName = baseCompanyNames[Math.floor(Math.random() * baseCompanyNames.length)];
                 
-                // تحديد اللاحقة بناءً على نوع الشركة
                 let suffix = "";
                 if (type === "تقنية" || type === "سايبر" || type === "برمجيات") {
                     suffix = techCyberSoftwareSuffixes[Math.floor(Math.random() * techCyberSoftwareSuffixes.length)];
@@ -538,8 +582,6 @@
                 }
                 
                 const name = `${baseName} ${suffix}`;
-                
-                // توليد بريد إلكتروني بناءً على رقم الشركة لتجنب التكرار
                 const emailDomain = type === "هندسية" || type === "استشارات" ? "consult.sa" : "tech.sa";
                 
                 companies.push({
@@ -614,7 +656,7 @@
             const searchName = document.getElementById('searchName').value.toLowerCase();
             
             const resultsContent = document.getElementById('resultsContent');
-            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>جاري البحث في قاعدة البيانات...</div>';
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>جاري استخراج مسار التقديم...</div>';
             
             setTimeout(() => {
                 filteredCompanies = allCompanies.filter(company => {
@@ -640,7 +682,7 @@
             const resultsContent = document.getElementById('resultsContent');
             
             if (filteredCompanies.length === 0) {
-                resultsContent.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج مطابقة، حاول تغيير خيارات البحث</div>';
+                resultsContent.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج، حاول تغيير خيارات المسار</div>';
                 document.getElementById('statsRow').style.display = 'none';
                 document.getElementById('exportBtn').disabled = true;
                 return;
@@ -659,17 +701,19 @@
             const toDisplay = filteredCompanies.slice(0, displayLimit);
             
             toDisplay.forEach((company) => {
-                // روابط Google Maps الرسمية المحدثة والصحيحة
                 const mapsSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.name + ' حي ' + company.district + ' الرياض')}`;
-                const gpsGoogle = `https://www.google.com/maps?q=${company.lat},${company.lng}`;
+                const gpsGoogle = `https://www.google.com/maps/search/?api=1&query=${company.lat},${company.lng}`;
                 const gpsWaze = `https://www.waze.com/ul?ll=${company.lat},${company.lng}&navigate=yes`;
                 const badgeClass = typeMap[company.type] || 'type-tech';
+                
+                const pois = districtPOIs[company.district] || ["منطقة تجارية حيوية"];
+                const poiHtml = pois.map(p => `• ${p}`).join('<br>');
                 
                 html += `
                     <div class="company-card">
                         <div class="company-header">
                             <div class="company-name">
-                                <a href="${mapsSearchUrl}" target="_blank" title="اضغط للبحث عن الشركة في خرائط جوجل">${company.name}</a>
+                                <a href="${mapsSearchUrl}" target="_blank" title="البحث الفعلي في خرائط جوجل">${company.name}</a>
                             </div>
                             <span class="type-badge ${badgeClass}">${company.type}</span>
                         </div>
@@ -692,6 +736,11 @@
                                 <span style="word-break: break-all;">${company.email}</span>
                             </div>
                         </div>
+
+                        <div class="poi-box">
+                            <strong>📍 جهات وهيئات حيوية قريبة مر عليها في طريقك:</strong>
+                            ${poiHtml}
+                        </div>
                         
                         <div class="company-actions">
                             <a href="${gpsGoogle}" target="_blank" class="action-link">موقع كروكي (Google)</a>
@@ -702,7 +751,7 @@
             });
             
             if (filteredCompanies.length > displayLimit) {
-                html += `<div class="empty-state" style="color: #ffeb3b;">تم عرض أول ${displayLimit} شركة فقط لتفادي بطء المتصفح، يمكنك تحميل ملف Excel لمشاهدة كافة النتائج (${filteredCompanies.length}) نتيجه.</div>`;
+                html += `<div class="empty-state" style="color: #ffeb3b;">تم عرض ${displayLimit} شركة. يمكنك تحميل ملف Excel لطباعة كافة النتائج (${filteredCompanies.length}) وأخذها معك كدليل ورقي.</div>`;
             }
             
             resultsContent.innerHTML = html;
@@ -721,23 +770,28 @@
         function exportToExcel() {
             if (filteredCompanies.length === 0) return;
             
-            const data = filteredCompanies.map((c, i) => ({
-                'الرقم': i + 1,
-                'اسم الشركة': c.name,
-                'النوع': c.type,
-                'الموقع': c.district,
-                'الهاتف': c.phone,
-                'البريد الإلكتروني': c.email,
-                'عدد الموظفين': c.employees,
-                'رابط بحث الخرائط بالاسم': `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.name + ' حي ' + c.district + ' الرياض')}`,
-                'رابط الموقع بالإحداثيات (Google)': `https://www.google.com/maps?q=${c.lat},${c.lng}`,
-                'رابط Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`
-            }));
+            const data = filteredCompanies.map((c, i) => {
+                const pois = districtPOIs[c.district] ? districtPOIs[c.district].join(" | ") : "لا توجد معالم مسجلة";
+                
+                return {
+                    'الرقم': i + 1,
+                    'اسم الشركة': c.name,
+                    'النوع': c.type,
+                    'الموقع': c.district,
+                    'أهم المعالم والجهات بنفس الحي': pois,
+                    'الهاتف': c.phone,
+                    'البريد الإلكتروني': c.email,
+                    'عدد الموظفين': c.employees,
+                    'رابط بحث الخرائط بالاسم': `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.name + ' حي ' + c.district + ' الرياض')}`,
+                    'رابط الموقع بالإحداثيات (Google)': `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lng}`,
+                    'رابط Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`
+                };
+            });
             
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "الشركات المفلترة");
-            XLSX.writeFile(wb, `دليل_الشركات_الرياض_${filteredCompanies.length}.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "مسار التقديم");
+            XLSX.writeFile(wb, `خطة_تقديم_شركات_الرياض_${filteredCompanies.length}.xlsx`);
         }
     </script>
 </body>
