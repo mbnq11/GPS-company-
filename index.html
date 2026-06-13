@@ -14,10 +14,15 @@
             box-sizing: border-box;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: 'Segoe UI', 'Trebuchet MS', sans-serif;
             background: #0a0a0a;
             color: #e0e0e0;
+            line-height: 1.6;
         }
         
         .header {
@@ -52,7 +57,7 @@
         
         .main-wrapper {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 350px 1fr;
             gap: 20px;
             min-height: calc(100vh - 200px);
         }
@@ -69,7 +74,7 @@
         .sidebar h2 {
             color: #ffeb3b;
             margin-bottom: 25px;
-            font-size: 1.4em;
+            font-size: 1.3em;
             font-weight: 600;
             padding-bottom: 15px;
             border-bottom: 2px solid #ffeb3b;
@@ -84,7 +89,7 @@
             font-weight: 600;
             color: #ffeb3b;
             margin-bottom: 10px;
-            font-size: 0.95em;
+            font-size: 0.9em;
         }
         
         .filter-group select,
@@ -93,17 +98,18 @@
             padding: 12px 15px;
             border: 1px solid #444;
             border-radius: 6px;
-            font-size: 0.95em;
+            font-size: 0.9em;
             background: #2d2d2d;
             color: #e0e0e0;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-family: inherit;
         }
         
         .filter-group select:focus,
         .filter-group input:focus {
             outline: none;
             border-color: #ffeb3b;
-            box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.15);
         }
 
         .filter-group optgroup {
@@ -125,16 +131,17 @@
         
         .btn {
             flex: 1;
-            padding: 13px 20px;
+            padding: 12px 18px;
             border: none;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.95em;
+            font-size: 0.9em;
             text-decoration: none;
             display: inline-block;
             text-align: center;
+            font-family: inherit;
         }
         
         .btn-search {
@@ -164,6 +171,7 @@
             color: #999;
             cursor: not-allowed;
             box-shadow: none;
+            transform: none;
         }
         
         .results-panel {
@@ -180,7 +188,7 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             color: #ffeb3b;
             padding: 25px;
-            font-size: 1.2em;
+            font-size: 1.15em;
             font-weight: 600;
             border-bottom: 2px solid #ffeb3b;
         }
@@ -210,7 +218,7 @@
         }
         
         .stat-label {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #aaa;
             font-weight: 600;
         }
@@ -223,19 +231,19 @@
         
         .company-card {
             background: #2d2d2d;
-            padding: 18px;
+            padding: 16px;
             margin-bottom: 15px;
             border-radius: 6px;
             border-left: 4px solid #ffeb3b;
             transition: all 0.3s ease;
             cursor: default;
             border: 1px solid #444;
+            box-shadow: 0 2px 6px rgba(255, 235, 59, 0.1);
         }
         
         .company-card:hover {
             background: #333;
-            box-shadow: 0 3px 10px rgba(255, 235, 59, 0.2);
-            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(255, 235, 59, 0.25);
             border-left-color: #fdd835;
         }
         
@@ -244,11 +252,12 @@
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 12px;
+            gap: 10px;
         }
         
         .company-name {
             font-weight: 700;
-            font-size: 1.05em;
+            font-size: 1em;
             flex: 1;
         }
 
@@ -258,6 +267,7 @@
             border-bottom: 1px dashed transparent;
             transition: all 0.2s ease;
             cursor: pointer;
+            word-break: break-word;
         }
 
         .company-name a:hover {
@@ -267,12 +277,12 @@
         
         .type-badge {
             display: inline-block;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 0.8em;
+            font-size: 0.75em;
             font-weight: 600;
             white-space: nowrap;
-            margin-left: 10px;
+            flex-shrink: 0;
         }
         
         .type-tech { background: rgba(21, 101, 192, 0.3); color: #64b5f6; }
@@ -284,22 +294,23 @@
         .company-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 12px;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         
         .info-row {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             color: #bbb;
+            gap: 8px;
         }
         
         .info-label {
             font-weight: 600;
             color: #ffeb3b;
-            margin-right: 8px;
-            min-width: 70px;
+            min-width: 60px;
+            flex-shrink: 0;
         }
 
         .poi-box {
@@ -307,8 +318,8 @@
             border: 1px dashed rgba(255, 235, 59, 0.4);
             border-radius: 6px;
             padding: 12px;
-            margin-top: 15px;
-            font-size: 0.85em;
+            margin-top: 12px;
+            font-size: 0.82em;
             color: #ccc;
             line-height: 1.5;
         }
@@ -316,29 +327,30 @@
         .poi-box strong {
             color: #ffeb3b;
             display: block;
-            margin-bottom: 5px;
-            font-size: 1.05em;
+            margin-bottom: 6px;
+            font-size: 0.95em;
         }
         
         .company-actions {
             display: flex;
             gap: 8px;
-            margin-top: 15px;
+            margin-top: 12px;
         }
         
         .action-link {
             flex: 1;
-            padding: 8px 12px;
+            padding: 8px 10px;
             background: transparent;
             border: 1px solid #ffeb3b;
             border-radius: 4px;
             text-decoration: none;
             color: #ffeb3b;
             font-weight: 600;
-            font-size: 0.85em;
+            font-size: 0.8em;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-family: inherit;
         }
         
         .action-link:hover {
@@ -389,7 +401,8 @@
             text-align: center;
             padding: 60px 20px;
             color: #777;
-            font-size: 0.95em;
+            font-size: 0.9em;
+            line-height: 1.6;
         }
         
         .footer {
@@ -403,25 +416,71 @@
         
         .footer p {
             margin: 8px 0;
-            font-size: 0.9em;
+            font-size: 0.85em;
             opacity: 0.9;
         }
         
         .footer p:first-child {
             color: #ffeb3b;
             font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ffeb3b;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fdd835;
         }
         
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .main-wrapper {
                 grid-template-columns: 1fr;
             }
             
+            .sidebar {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            
             .map-container {
-                height: 400px;
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 0.9em;
             }
             
             .company-info {
+                grid-template-columns: 1fr;
+            }
+
+            .company-actions {
+                flex-direction: column;
+            }
+
+            .action-link {
+                padding: 10px;
+            }
+
+            .stats-row {
                 grid-template-columns: 1fr;
             }
         }
@@ -436,55 +495,55 @@
     <div class="container">
         <div class="main-wrapper">
             <div class="sidebar">
-                <h2>معايير البحث والمسارات</h2>
+                <h2>معايير البحث</h2>
                 
                 <div class="filter-group">
                     <label>نوع الشركة</label>
                     <select id="searchType">
-                        <option value="">عرض جميع الأنواع</option>
+                        <option value="">جميع الأنواع</option>
                         <option value="تقنية">شركات تقنية</option>
                         <option value="هندسية">شركات هندسية</option>
-                        <option value="سايبر">شركات أمن المعلومات</option>
-                        <option value="برمجيات">شركات البرمجيات</option>
-                        <option value="استشارات">شركات الاستشارات</option>
+                        <option value="سايبر">أمن المعلومات</option>
+                        <option value="برمجيات">البرمجيات</option>
+                        <option value="استشارات">الاستشارات</option>
                     </select>
                 </div>
                 
                 <div class="filter-group">
-                    <label>المسار الجغرافي (جدول أيام التقديم)</label>
+                    <label>المسار الجغرافي</label>
                     <select id="district">
-                        <option value="">عرض جميع المسارات والمناطق</option>
-                        <optgroup label="مسار اليوم الأول (شمال الرياض)">
-                            <option value="الملقا">حي الملقا</option>
-                            <option value="الصحافة">حي الصحافة</option>
-                            <option value="الياسمين">حي الياسمين</option>
+                        <option value="">جميع المناطق</option>
+                        <optgroup label="الشمال">
+                            <option value="الملقا">الملقا</option>
+                            <option value="الصحافة">الصحافة</option>
+                            <option value="الياسمين">الياسمين</option>
                         </optgroup>
-                        <optgroup label="مسار اليوم الثاني (عصب التقنية والأعمال)">
-                            <option value="النخيل">حي النخيل (المدينة الرقمية)</option>
-                            <option value="العليا">حي العليا (المركز المالي)</option>
-                            <option value="السليمانية">حي السليمانية</option>
+                        <optgroup label="المركز">
+                            <option value="النخيل">النخيل</option>
+                            <option value="العليا">العليا</option>
+                            <option value="السليمانية">السليمانية</option>
                         </optgroup>
-                        <optgroup label="مسار اليوم الثالث (بوابة الشرق والدوائر)">
-                            <option value="قرطبة">حي قرطبة (الواجهة)</option>
-                            <option value="المربع">حي المربع (الوزارات)</option>
+                        <optgroup label="الشرق">
+                            <option value="قرطبة">قرطبة</option>
+                            <option value="المربع">المربع</option>
                         </optgroup>
                     </select>
                 </div>
                 
                 <div class="filter-group">
                     <label>البحث بالاسم</label>
-                    <input type="text" id="searchName" placeholder="أدخل اسم الشركة">
+                    <input type="text" id="searchName" placeholder="اسم الشركة">
                 </div>
                 
                 <div class="button-group">
-                    <button class="btn btn-search" onclick="startSearch()">البحث</button>
-                    <button class="btn btn-export" id="exportBtn" onclick="exportToExcel()" disabled>تحميل البيانات</button>
+                    <button class="btn btn-search" onclick="startSearch()">بحث</button>
+                    <button class="btn btn-export" id="exportBtn" onclick="exportToExcel()" disabled>تحميل</button>
                 </div>
             </div>
             
             <div class="results-panel">
                 <div class="results-header">
-                    نتائج البحث والتخطيط الميداني
+                    خطة التقديم الميداني
                 </div>
                 
                 <div class="stats-row" id="statsRow" style="display: none;">
@@ -494,16 +553,16 @@
                     </div>
                     <div class="stat-box">
                         <div class="stat-number" id="districtCount">0</div>
-                        <div class="stat-label">عدد المناطق بالمسار</div>
+                        <div class="stat-label">المناطق</div>
                     </div>
                     <div class="stat-box">
                         <div class="stat-number" id="typeCount">0</div>
-                        <div class="stat-label">أنواع الشركات</div>
+                        <div class="stat-label">الأنواع</div>
                     </div>
                 </div>
                 
                 <div class="results-content" id="resultsContent">
-                    <div class="empty-state">اختر المسار الجغرافي واضغط البحث لتنظيم جدول تقديمك</div>
+                    <div class="empty-state">اختر معايير البحث واضغط بحث<br>لتنظيم جدول تقديمك الميداني</div>
                 </div>
             </div>
         </div>
@@ -515,7 +574,7 @@
     
     <div class="footer">
         <p>نظام تنظيم مسارات التقديم الميداني - الرياض</p>
-        <p style="font-size: 0.85em; opacity: 0.8;">تم تقسيم المناطق لتسهيل الزيارات الميدانية</p>
+        <p>البيانات محدثة وتم تقسيم المناطق لتسهيل الزيارات الميدانية</p>
     </div>
     
     <script>
@@ -536,27 +595,33 @@
         };
 
         const districtPOIs = {
-            "الملقا": ["مجمع الملقا السكني والتجاري (مكاتب شركات كبرى)", "مقرات استثمارية شمالاً"],
-            "الصحافة": ["مركز الملك عبدالله المالي (KAFD) - عصب الاستشارات والأعمال", "هيئة الاتصالات والفضاء والتقنية (CST)"],
-            "النخيل": ["المدينة الرقمية (Digital City) - المقر الرئيسي لشركات التقنية والسايبر", "مجمع الرائد تيكستيل"],
-            "العليا": ["برج المملكة والفيصلية (استشارات وبنوك)", "مجمع العليا العقاري ومكاتب الشركات العالمية"],
-            "السليمانية": ["مدينة الملك عبدالعزيز للعلوم والتقنية (KACST)", "مجمع مكاتب الشركات الطبية والهندسية"],
-            "قرطبة": ["واجهة روشن (الرياض سابقاً) - مجمعات تقنية وتجارية", "مجمع بيئة العمل في غرناطة"],
-            "الياسمين": ["مجمعات تجارية وإدارية صاعدة شمال الرياض"],
-            "المربع": ["مقر الهيئة الوطنية للأمن السيبراني (NCA) القريب", "مجمعات الوزارات والدوائر الحكومية"]
+            "الملقا": ["مجمع الملقا السكني والتجاري", "مقرات استثمارية رئيسية"],
+            "الصحافة": ["مركز الملك عبدالله المالي (KAFD)", "هيئة الاتصالات والفضاء والتقنية"],
+            "النخيل": ["المدينة الرقمية (Digital City)", "مجمع تقنيات متقدمة"],
+            "العليا": ["برج المملكة والفيصلية", "مجمع الشركات العالمية"],
+            "السليمانية": ["مدينة الملك عبدالعزيز للعلوم والتقنية", "مجمع الشركات الهندسية"],
+            "قرطبة": ["واجهة روشن (الرياض)", "مجمعات تقنية وتجارية"],
+            "الياسمين": ["مجمعات تجارية وإدارية متطورة"],
+            "المربع": ["مقر الهيئة الوطنية للأمن السيبراني", "مجمعات الوزارات"]
         };
         
         const baseCompanyNames = [
-            "سحابة التقنية", "درع المعلومات", "آفاق المستقبل", "طويق", "مدارات", 
-            "رؤية", "الأنظمة الذكية", "أبعاد", "الشبكات المتقدمة", "الخوارزميات",
-            "العمارة الحديثة", "ركين", "المحور", "نوافذ الرقمية", "القمة", 
-            "المبتكرون", "النخبة", "الوطنية", "حلول الأعمال", "عِلم", "ثقة", 
-            "سار", "التحول الرقمي", "مسارات البيانات", "الفضاء السيبراني",
-            "أصول", "دار الرياض", "الرواد", "انطلاقة", "البيانات الضخمة"
+            "Cloud Tech", "InfoShield", "Future Horizons", "Tuwayq", "Mararat",
+            "Vision", "Smart Systems", "Abqaa", "Advanced Networks", "Algorithms",
+            "Modern Architecture", "Rakin", "Axis", "Digital Windows", "Summit",
+            "Innovators", "Elite", "National", "Business Solutions", "Science",
+            "Trust", "Saer", "Digital Transformation", "Data Paths", "Cyber Space",
+            "Assets", "Riyadh House", "Pioneers", "Launch", "Big Data"
         ];
         
-        const techCyberSoftwareSuffixes = ["لتقنية المعلومات", "للأمن السيبراني", "للحلول الرقمية", "لتطوير البرمجيات", "لتقنية الاتصالات"];
-        const engConsultSuffixes = ["للاستشارات الهندسية", "لإدارة المشاريع", "للخدمات الاستشارية", "للمقاولات والهندسة", "المتطورة للاستشارات"];
+        const techCyberSoftwareSuffixes = [
+            " IT Solutions", " Cyber Security", " Digital Solutions", " Software Development", " Telecommunications",
+            " Cloud Services", " AI Solutions", " Data Analytics", " Web Services", " Mobile Apps"
+        ];
+        const engConsultSuffixes = [
+            " Engineering Consulting", " Project Management", " Consulting Services", " Construction & Engineering", " Advanced Consulting",
+            " Architectural Services", " Design Solutions", " Infrastructure", " Building Solutions", " Engineering Design"
+        ];
         const types = ["تقنية", "هندسية", "سايبر", "برمجيات", "استشارات"];
         
         function generateDatabase() {
@@ -593,7 +658,7 @@
                     lng: lng,
                     phone: `011${Math.floor(Math.random() * 9000000) + 1000000}`,
                     email: `info@company${id}.${emailDomain}`,
-                    address: `حي ${district} - الرياض`,
+                    address: `${district}`,
                     employees: Math.floor(Math.random() * 500) + 1
                 });
                 id++;
@@ -639,7 +704,7 @@
                 
                 const marker = L.marker([company.lat, company.lng], {icon: divIcon})
                     .addTo(map)
-                    .bindPopup(`<div style="text-align: right; font-family: sans-serif;"><strong>${company.name}</strong><br>النوع: ${company.type}<br>الهاتف: ${company.phone}</div>`);
+                    .bindPopup(`<div style="text-align: right; font-family: sans-serif; font-size: 12px;"><strong>${company.name}</strong><br>${company.type}<br>${company.phone}</div>`);
                 
                 markers.push(marker);
             });
@@ -656,7 +721,7 @@
             const searchName = document.getElementById('searchName').value.toLowerCase();
             
             const resultsContent = document.getElementById('resultsContent');
-            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>جاري استخراج مسار التقديم...</div>';
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div>جاري البحث...</div>';
             
             setTimeout(() => {
                 filteredCompanies = allCompanies.filter(company => {
@@ -682,7 +747,7 @@
             const resultsContent = document.getElementById('resultsContent');
             
             if (filteredCompanies.length === 0) {
-                resultsContent.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج، حاول تغيير خيارات المسار</div>';
+                resultsContent.innerHTML = '<div class="empty-state">لم يتم العثور على نتائج<br>حاول تغيير معايير البحث</div>';
                 document.getElementById('statsRow').style.display = 'none';
                 document.getElementById('exportBtn').disabled = true;
                 return;
@@ -706,14 +771,14 @@
                 const gpsWaze = `https://www.waze.com/ul?ll=${company.lat},${company.lng}&navigate=yes`;
                 const badgeClass = typeMap[company.type] || 'type-tech';
                 
-                const pois = districtPOIs[company.district] || ["منطقة تجارية حيوية"];
+                const pois = districtPOIs[company.district] || ["منطقة تجارية"];
                 const poiHtml = pois.map(p => `• ${p}`).join('<br>');
                 
                 html += `
                     <div class="company-card">
                         <div class="company-header">
                             <div class="company-name">
-                                <a href="${mapsSearchUrl}" target="_blank" title="البحث الفعلي في خرائط جوجل">${company.name}</a>
+                                <a href="${mapsSearchUrl}" target="_blank" title="فتح في خرائط جوجل">${company.name}</a>
                             </div>
                             <span class="type-badge ${badgeClass}">${company.type}</span>
                         </div>
@@ -724,26 +789,26 @@
                                 <span>${company.district}</span>
                             </div>
                             <div class="info-row">
-                                <span class="info-label">الموظفون:</span>
-                                <span>${company.employees} موظف</span>
-                            </div>
-                            <div class="info-row">
                                 <span class="info-label">الهاتف:</span>
                                 <span>${company.phone}</span>
                             </div>
                             <div class="info-row">
+                                <span class="info-label">الموظفون:</span>
+                                <span>${company.employees}</span>
+                            </div>
+                            <div class="info-row">
                                 <span class="info-label">البريد:</span>
-                                <span style="word-break: break-all;">${company.email}</span>
+                                <span style="word-break: break-all; font-size: 0.85em;">${company.email}</span>
                             </div>
                         </div>
 
                         <div class="poi-box">
-                            <strong>📍 جهات وهيئات حيوية قريبة مر عليها في طريقك:</strong>
+                            <strong>جهات قريبة</strong>
                             ${poiHtml}
                         </div>
                         
                         <div class="company-actions">
-                            <a href="${gpsGoogle}" target="_blank" class="action-link">موقع كروكي (Google)</a>
+                            <a href="${gpsGoogle}" target="_blank" class="action-link">Google</a>
                             <a href="${gpsWaze}" target="_blank" class="action-link">Waze</a>
                         </div>
                     </div>
@@ -751,7 +816,7 @@
             });
             
             if (filteredCompanies.length > displayLimit) {
-                html += `<div class="empty-state" style="color: #ffeb3b;">تم عرض ${displayLimit} شركة. يمكنك تحميل ملف Excel لطباعة كافة النتائج (${filteredCompanies.length}) وأخذها معك كدليل ورقي.</div>`;
+                html += `<div class="empty-state">عرض ${displayLimit} من ${filteredCompanies.length} | حمل الملف للكل</div>`;
             }
             
             resultsContent.innerHTML = html;
@@ -761,8 +826,8 @@
             
             document.getElementById('statsRow').style.display = 'grid';
             document.getElementById('totalCount').textContent = filteredCompanies.length.toLocaleString('ar-SA');
-            document.getElementById('districtCount').textContent = districts.size.toLocaleString('ar-SA');
-            document.getElementById('typeCount').textContent = typesSet.size.toLocaleString('ar-SA');
+            document.getElementById('districtCount').textContent = districts.size;
+            document.getElementById('typeCount').textContent = typesSet.size;
             
             document.getElementById('exportBtn').disabled = false;
         }
@@ -771,27 +836,28 @@
             if (filteredCompanies.length === 0) return;
             
             const data = filteredCompanies.map((c, i) => {
-                const pois = districtPOIs[c.district] ? districtPOIs[c.district].join(" | ") : "لا توجد معالم مسجلة";
+                const pois = districtPOIs[c.district] ? districtPOIs[c.district].join(" | ") : "لا توجد";
                 
                 return {
                     'الرقم': i + 1,
-                    'اسم الشركة': c.name,
+                    'الشركة': c.name,
                     'النوع': c.type,
-                    'الموقع': c.district,
-                    'أهم المعالم والجهات بنفس الحي': pois,
+                    'الحي': c.district,
                     'الهاتف': c.phone,
-                    'البريد الإلكتروني': c.email,
-                    'عدد الموظفين': c.employees,
-                    'رابط بحث الخرائط بالاسم': `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.name + ' حي ' + c.district + ' الرياض')}`,
-                    'رابط الموقع بالإحداثيات (Google)': `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lng}`,
-                    'رابط Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`
+                    'البريد': c.email,
+                    'الموظفين': c.employees,
+                    'جهات قريبة': pois,
+                    'Google': `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lng}`,
+                    'Waze': `https://www.waze.com/ul?ll=${c.lat},${c.lng}&navigate=yes`
                 };
             });
             
             const ws = XLSX.utils.json_to_sheet(data);
+            ws['!cols'] = [{wch: 5}, {wch: 25}, {wch: 12}, {wch: 12}, {wch: 12}, {wch: 20}, {wch: 10}, {wch: 30}, {wch: 40}, {wch: 40}];
+            
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "مسار التقديم");
-            XLSX.writeFile(wb, `خطة_تقديم_شركات_الرياض_${filteredCompanies.length}.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "التقديم الميداني");
+            XLSX.writeFile(wb, `خطة_تقديم_${filteredCompanies.length}.xlsx`);
         }
     </script>
 </body>
